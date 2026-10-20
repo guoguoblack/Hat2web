@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% set c = cat_map[a.category] %}
+{% block title %}{{ a.title }} | {{ site.name }}{% endblock %}
+{% block description %}{{ (a.summary | join(" ")) or a.title }}{% endblock %}
+{% block content %}
+<nav class="crumbs" aria-label="現在地"><a href="{{ base }}">トップ</a> › <a href="{{ base }}category/{{ c.slug }}/">{{ c.name }}</a></nav>
+<article class="article">
+  <a class="chip chip-{{ c.slug }}" href="{{ base }}category/{{ c.slug }}/">{{ c.icon }} {{ c.name }}</a>
+  <h1>{{ a.title }}</h1>
+  <p class="meta">{{ a.source }} ・ <time datetime="{{ a.published }}">{{ a.published | jst }}</time></p>
+
+  <div id="read-target">
+  {% if a.summary %}
+  <section class="box">
+    <h2>📝 ポイント</h2>
+    <ul class="summary">{% for s in a.summary %}<li>{{ s }}</li>{% endfor %}</ul>
+  </section>
+  {% endif %}
+  {% if a.easy %}
+  <section class="box box-easy">
+    <h2>🌱 やさしい日本語</h2>
+    <p>{{ a.easy }}</p>
+  </section>
+  {% endif %}
+  </div>
+
+  <div class="actions">
+    <a class="btn btn-primary" href="{{ a.link }}" target="_blank" rel="noopener">元の記事を読む（{{ a.source }}）↗</a>
+    <button class="btn" type="button" id="speak" hidden>🔊 読み上げる</button>
+  </div>
+
+  {% if a.tags %}<p class="tags">{% for t in a.tags %}<a href="{{ base }}tag/{{ t }}/">#{{ t }}</a>{% endfor %}</p>{% endif %}
+  <p class="note">この要約は{% if a.ai %} AI が{% else %}自動で{% endif %}元記事のタイトルと抜粋から作成したものです。正確な内容は元記事をご確認ください。</p>
+</article>
+
+{% if related %}
+<section aria-labelledby="related">
+  <h2 id="related" class="section-title">同じカテゴリの記事</h2>
+  <ul class="headlines">
+    {% for r in related %}<li><a href="{{ base }}article/{{ r.id }}/">{{ r.title }}</a> <span class="meta">{{ r.source }}</span></li>{% endfor %}
+  </ul>
+</section>
+{% endif %}
+{% endblock %}

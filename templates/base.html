@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ site.name }} | {{ site.tagline }}{% endblock %}</title>
+<meta name="description" content="{% block description %}{{ site.description }}{% endblock %}">
+<link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="{{ base }}feed.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ base }}static/style.css">
+<script>
+  // 表示設定を描画前に反映（ちらつき防止）
+  try { var s = JSON.parse(localStorage.getItem("hat2-prefs") || "{}");
+    for (var k in s) document.documentElement.dataset[k] = s[k]; } catch (e) {}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">本文へスキップ</a>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="logo" href="{{ base }}">
+      <span class="logo-mark" aria-hidden="true">H2</span>
+      <span><strong>{{ site.name }}</strong><small>{{ site.tagline }}</small></span>
+    </a>
+    <button class="prefs-btn" type="button" aria-expanded="false" aria-controls="prefs">
+      <span aria-hidden="true">Aa</span> 見やすさ設定
+    </button>
+  </div>
+  <div id="prefs" class="prefs" hidden>
+    <div class="wrap prefs-grid">
+      <fieldset><legend>文字の大きさ</legend>
+        <button data-pref="size" data-value="s">小</button>
+        <button data-pref="size" data-value="m">中</button>
+        <button data-pref="size" data-value="l">大</button>
+        <button data-pref="size" data-value="xl">特大</button>
+      </fieldset>
+      <fieldset><legend>行の間かく</legend>
+        <button data-pref="spacing" data-value="normal">ふつう</button>
+        <button data-pref="spacing" data-value="wide">ひろい</button>
+      </fieldset>
+      <fieldset><legend>色</legend>
+        <button data-pref="theme" data-value="light">白</button>
+        <button data-pref="theme" data-value="cream">クリーム</button>
+        <button data-pref="theme" data-value="dark">黒</button>
+      </fieldset>
+      <fieldset><legend>文章</legend>
+        <button data-pref="easy" data-value="off">ふつう</button>
+        <button data-pref="easy" data-value="on">やさしい日本語</button>
+      </fieldset>
+    </div>
+  </div>
+  <nav class="cat-nav" aria-label="カテゴリ">
+    <div class="wrap">
+      <a href="{{ base }}" {% if page == "home" %}aria-current="page"{% endif %}>🏠 トップ</a>
+      {% for c in categories %}
+      <a href="{{ base }}category/{{ c.slug }}/" {% if page == c.slug %}aria-current="page"{% endif %}>{{ c.icon }} {{ c.name }}</a>
+      {% endfor %}
+    </div>
+  </nav>
+</header>
+
+<main id="main" class="wrap">
+{% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>{{ site.name }}</strong> — {{ site.description }}</p>
+    <p class="note">要約は AI とキーワードで自動作成しています。くわしい内容や正確な情報は、必ずリンク先の元記事でご確認ください。医療についての判断は、医師などの専門家にご相談ください。</p>
+    <p><a href="{{ base }}about/">このサイトについて</a> ・ <a href="{{ base }}feed.xml">RSS</a> ・ 最終更新 {{ updated | jst }}</p>
+  </div>
+</footer>
+<script src="{{ base }}static/app.js"></script>
+</body>
+</html>

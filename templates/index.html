@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>きょうの発達障害ニュース</h1>
+  <p>ADHD・ASD・LD などに関するニュースを、1日4回あつめて、短くまとめています。</p>
+  {% if tags %}
+  <p class="tags hero-tags">{% for t in tags %}<a href="{{ base }}tag/{{ t }}/">#{{ t }}</a>{% endfor %}</p>
+  {% endif %}
+</section>
+
+<section aria-labelledby="latest">
+  <h2 id="latest" class="section-title">🆕 新着ニュース</h2>
+  {% if latest %}
+  <div class="grid">{% for a in latest %}{% include "_card.html" %}{% endfor %}</div>
+  {% else %}
+  <p class="empty">まだ記事がありません。<code>python -m hat2 update</code> を実行してください。</p>
+  {% endif %}
+</section>
+
+{% for c in categories %}{% set items = by_cat[c.slug] %}{% if items %}
+<section aria-labelledby="cat-{{ c.slug }}">
+  <div class="section-head">
+    <h2 id="cat-{{ c.slug }}" class="section-title">{{ c.icon }} {{ c.name }}</h2>
+    <a href="{{ base }}category/{{ c.slug }}/">もっと見る →</a>
+  </div>
+  <ul class="headlines">
+    {% for a in items[:5] %}
+    <li><a href="{{ base }}article/{{ a.id }}/">{{ a.title }}</a> <span class="meta">{{ a.source }} ・ {{ a.published | jst("%-m/%-d") }}</span></li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}{% endfor %}
+{% endblock %}

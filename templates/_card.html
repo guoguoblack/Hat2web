@@ -1,0 +1,13 @@
+{% set c = cat_map[a.category] %}
+<article class="card">
+  <a class="chip chip-{{ c.slug }}" href="{{ base }}category/{{ c.slug }}/">{{ c.icon }} {{ c.name }}</a>
+  <h3><a href="{{ base }}article/{{ a.id }}/">{{ a.title }}</a></h3>
+  <p class="meta">{{ a.source }} ・ <time datetime="{{ a.published }}">{{ a.published | jst }}</time></p>
+  {% if a.summary %}
+  <ul class="summary">{% for s in a.summary %}<li>{{ s }}</li>{% endfor %}</ul>
+  {% endif %}
+  {% if a.easy %}<p class="easy">{{ a.easy }}</p>{% endif %}
+  {% if a.tags %}
+  <p class="tags">{% for t in a.tags %}<a href="{{ base }}tag/{{ t }}/">#{{ t }}</a>{% endfor %}</p>
+  {% endif %}
+</article>

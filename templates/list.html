@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ heading }} | {{ site.name }}{% endblock %}
+{% block content %}
+<h1 class="page-title">{{ heading }}</h1>
+<p class="meta">{{ items | length }} 件の記事</p>
+{% if items %}
+<div class="grid">{% for a in items %}{% include "_card.html" %}{% endfor %}</div>
+{% else %}
+<p class="empty">このカテゴリの記事はまだありません。</p>
+{% endif %}
+{% endblock %}

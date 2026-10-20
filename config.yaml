@@ -1,0 +1,82 @@
+# Hat2ニュース 設定ファイル
+site:
+  name: "Hat2ニュース"            # 「Hat2ウェブ」に変える場合はここ
+  tagline: "発達障害のニュースを、やさしく、毎日。"
+  description: "ADHD・ASD・LDなど発達障害に関するニュース、研究、制度の情報を毎日まとめてお届けします。"
+  base_path: "/Hat2web/"          # 独自ドメインにしたら "/" に戻す
+  base_url: "https://guoguoblack.github.io" # 独自ドメインを取ったら変更（RSS・サイトマップ用）
+
+# 記事の取得元。Google News の検索 RSS は q= にキーワードを入れるだけで追加できます
+feeds:
+  - name: "Google News: 発達障害"
+    url: "https://news.google.com/rss/search?q=%E7%99%BA%E9%81%94%E9%9A%9C%E5%AE%B3&hl=ja&gl=JP&ceid=JP:ja"
+  - name: "Google News: ADHD"
+    url: "https://news.google.com/rss/search?q=ADHD&hl=ja&gl=JP&ceid=JP:ja"
+  - name: "Google News: 自閉スペクトラム症"
+    url: "https://news.google.com/rss/search?q=%E8%87%AA%E9%96%89%E3%82%B9%E3%83%9A%E3%82%AF%E3%83%88%E3%83%A9%E3%83%A0%E7%97%87+OR+%E8%87%AA%E9%96%89%E7%97%87&hl=ja&gl=JP&ceid=JP:ja"
+  - name: "Google News: 学習障害"
+    url: "https://news.google.com/rss/search?q=%E5%AD%A6%E7%BF%92%E9%9A%9C%E5%AE%B3+OR+%E9%99%90%E5%B1%80%E6%80%A7%E5%AD%A6%E7%BF%92%E7%97%87&hl=ja&gl=JP&ceid=JP:ja"
+  - name: "Google News: 特別支援教育"
+    url: "https://news.google.com/rss/search?q=%E7%89%B9%E5%88%A5%E6%94%AF%E6%8F%B4%E6%95%99%E8%82%B2&hl=ja&gl=JP&ceid=JP:ja"
+  - name: "厚生労働省 新着"
+    url: "https://www.mhlw.go.jp/stf/news.rdf"
+
+# タイトル・本文にどれか1つ含まれる記事だけを集める
+include_keywords:
+  - 発達障害
+  - 発達障がい
+  - ADHD
+  - 注意欠如
+  - 自閉
+  - ASD
+  - アスペルガー
+  - 学習障害
+  - 限局性学習症
+  - ディスレクシア
+  - 特別支援
+  - 神経発達症
+  - ニューロダイバーシティ
+  - グレーゾーン
+  - 合理的配慮
+
+# これを含む記事は除外（広告・無関係な話題など）
+exclude_keywords:
+  - 求人
+  - PR TIMES
+
+# カテゴリ。AI が使えないときは keywords で振り分ける（上から順に判定）
+categories:
+  - slug: research
+    name: 研究・医療
+    icon: "🔬"
+    keywords: [研究, 論文, 大学, 治療, 薬, 診断, 医療, 脳, 遺伝]
+  - slug: policy
+    name: 制度・行政
+    icon: "🏛"
+    keywords: [厚生労働省, 文部科学省, こども家庭庁, 制度, 法, 自治体, 手帳, 支援法, 予算]
+  - slug: work
+    name: 就労・仕事
+    icon: "💼"
+    keywords: [就労, 雇用, 仕事, 職場, 企業, 就職, 障害者雇用]
+  - slug: school
+    name: 学校・子育て
+    icon: "🏫"
+    keywords: [学校, 教育, 特別支援, 子ども, 子育て, 保育, 不登校, 学級]
+  - slug: life
+    name: くらし・ライフハック
+    icon: "💡"
+    keywords: [グッズ, アプリ, 工夫, 生活, 当事者, 体験]
+  - slug: news
+    name: ニュース
+    icon: "📰"
+    keywords: []
+
+ai:
+  enabled: true              # ANTHROPIC_API_KEY が無ければ自動でルールベースに切り替わる
+  model: "claude-haiku-5-5"  # 要約の質を上げたいなら "claude-opus-5-5"
+  effort: "low"
+  max_per_run: 40            # 1回の実行で AI に送る最大件数（費用の上限）
+
+storage:
+  max_articles: 1000         # data/articles.json に残す最大件数
+  max_age_days: 14           # これより古いニュースは取り込まない
